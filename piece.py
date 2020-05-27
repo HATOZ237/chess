@@ -1,3 +1,7 @@
+from board import *
+VIDE='.'
+nomPiece=(VIDE,'ROI','DAME','TOUR','CAVALIER','FOU','PION')
+valeurPiece={'.':0, 'ROI':0, 'DAME':9, 'TOUR':5, 'CAVALIER':3, 'FOU':3, 'PION':1}
 class ChessError(Exception):
     """
     Cette classe retourne des erreurs
@@ -14,6 +18,9 @@ class Piece():
     - 'nom' as name (ROI, DAME...);
     - 'couleur' as color (blanc,noir);
     - 'valeur' as its value"""
+        self.nom = nom
+        self.couleur = couleur
+        self.valeur = valeurPiece[self.couleur]
         pass
 
     def isEmpty(self):

@@ -1,1 +1,1 @@
-
+from piece import*

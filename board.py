@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from piece import *
 coord=[
 'a8','b8','c8','d8','e8','f8','g8','h8',
@@ -35,7 +34,7 @@ tab64 = (
     81, 82, 83, 84, 85, 86, 87, 88,
     91, 92, 93, 94, 95, 96, 97, 98
 )
-FEN = {'ROI blanc': K, 'ROI noir': k, 'DAME blanc':Q, 'DAME noir':q, 'TOUR blanc':R, /
+FEn = {'ROI blanc': K, 'ROI noir': k, 'DAME blanc':Q, 'DAME noir':q, 'TOUR blanc':R, /
 'TOUR noir':r, 'FOU blanc':B, 'FOU noir':b, 'CAVALIER blanc':N, 'CAVALIER noir':n, 'PION blanc':P, 'PION noir':p} #defini l etat dune ligne de l echequier pour la fonction set board
 K = roi blanc k = roi noir Q = dame blanche q = dame noire
 R = tour blanche r = tour noire B = fou blanc b = fou noir
@@ -46,7 +45,7 @@ class Echequier(object):
         "Init the chess board at starting position"
         # Chessboard has 64 squares, numbered from 0 to 63 (a8 to h1)
         # Placing pieces ('cases' is 'square' in french :)
-        self.cases :[
+        self.cases = [
             Piece('TOUR','noir'),Piece('CAVALIER','noir'),Piece('FOU','noir'),
             Piece('DAME','noir'),Piece('ROI','noir'),Piece('FOU','noir'),
             Piece('CAVALIER','noir'),Piece('TOUR','noir'),
@@ -80,20 +79,37 @@ class Echequier(object):
     - the name of the piece to promote '','q','r','b','n'
     (queen, rook, bishop, knight)
     """
-        for name in nomPiece:
-            self.pos1[name][color] =  tab64[] #jsuis bloque
-        self.pos2 = self.pos1 + #faut les fonctions pour les deplacements possibles dans piece.py
+        def deplacer(piece, pos1, pos2):
+            
     def setboard(self,fen):
         """Set the board to the FEN position given. i.e. :
     rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - - 0
     Returns TRUE or FALSE if done or not.
     If not : print errors.
     """
-    try:
+        try:
+            
+
+
     def getboard(self):
         """Returns the FEN notation of the current board. i.e. :
     rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - - 0
     """
+        FEN = ''
+        for num, vale in self.echequier: 
+            for cle, valeur in FEn.items():
+                if vale.nom + ' ' + vale.couleur == cle:
+                    FEN+= valeur
+                else:
+                    if FEN[len(FEN)-1]  in [1,2,3,4,5,6,7]:
+                        FEN = FEN[0: len(FEN)-1] + str(int (FEN[len(FEN)-1)]) + 1)
+                    else:
+                        FEN+= '1'  
+            if (num+1)//8 == (num+1)/8 und:
+                FEN += '/'
+            
+                 
+                
     def domove(self,depart,arrivee,promote):
         """Move a piece on the board from the square numbers
     'depart' to 'arrivee' (0..63) respecting rules :
@@ -104,8 +120,10 @@ class Echequier(object):
     - TRUE if the move do not let king in check
     - FALSE otherwise and undomove is done.
     """
+
     def undomove(self):
         "Undo the last move in history"
+
     def changeTrait(self):
         "Change the side to move"
     def oppColor(self,c):
@@ -131,6 +149,3 @@ class Echequier(object):
     def evaluer(self):
         """A wonderful evaluate() function
     returning actually only the material score"""`
-=======
-from piece import*
->>>>>>> a3353be6800821caba9c2acb2d127a4330d1a847

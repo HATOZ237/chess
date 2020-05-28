@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from piece import *
 coord=[
 'a8','b8','c8','d8','e8','f8','g8','h8',
@@ -130,3 +131,6 @@ class Echequier(object):
     def evaluer(self):
         """A wonderful evaluate() function
     returning actually only the material score"""`
+=======
+from piece import*
+>>>>>>> a3353be6800821caba9c2acb2d127a4330d1a847

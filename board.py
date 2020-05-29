@@ -98,6 +98,7 @@ class Echequier(object):
                     pos1 = posit64(h)
                     depla_pion = []
                     for i, j in pos2_pion(pos1, color, self.echequier):
+                        if 
                     
                 if h.nom == 'TOUR':
                     pos1 = posit64(h)

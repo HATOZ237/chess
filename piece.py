@@ -13,12 +13,20 @@ class Piece():
     """[Cette classe permet de gerer le comportement des pieces de l'echec]
     """
 
+<<<<<<< HEAD
     def __init__(self, nom='', couleur=''):
 
         """- 'nom' as name (ROI, DAME....);
         - 'couleur' as color (blanc,noir);
         - 'valeur' as its value
         """
+=======
+    def __init__(self, nom, couleur):
+        """Creating a piece object, with its attributes :
+    - 'nom' as name (ROI, DAME...);
+    - 'couleur' as color (blanc,noir);
+    - 'valeur' as its value"""
+>>>>>>> 5bc5e4816266dcf85be1d0b711e550d4f3049b8f
         #initialisation des elements importants
         VIDE = ''
         nomPiece=[VIDE,'ROI','DAME','TOUR','CAVALIER','FOU','PION']

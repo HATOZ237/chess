@@ -13,27 +13,19 @@ class Piece():
     """[Cette classe permet de gerer le comportement des pieces de l'echec]
     """
 
-    def __init__(self, nom, couleur):
-        """Creating a piece object, with its attributes :
-<<<<<<< HEAD
-    - 'nom' as name (ROI, DAME...);
-    - 'couleur' as color (blanc,noir);
-    - 'valeur' as its value"""
-        self.nom = nom
-        self.couleur = couleur
-        self.valeur = valeurPiece[self.couleur]
-=======
-        - 'nom' as name (ROI, DAME...);
+    def __init__(self, nom='', couleur=''):
+
+        """- 'nom' as name (ROI, DAME...);
         - 'couleur' as color (blanc,noir);
         - 'valeur' as its value
         """
         #initialisation des elements importants
-        VIDE = '.'
+        VIDE = ''
         nomPiece=[VIDE,'ROI','DAME','TOUR','CAVALIER','FOU','PION']
         valeurPiece=[0,0,9,5,3,3,1]
         
         #verification et erreurs de  création 
-        if not couleur in ["blanc", "noir"]:
+        if not couleur in ["blanc", "noir", ""]:
             raise ChessError("La couleur entrée n'est ni du blanc ni du noir")
         if not nom in nomPiece:
             raise ChessError('Le nom de votre piece ne correspond à aucun nom prédéfini')
@@ -42,7 +34,6 @@ class Piece():
         self.nom = nom
         self.couleur = couleur
         self.valeur = valeurPiece[nomPiece.index(self.nom)]
->>>>>>> a3353be6800821caba9c2acb2d127a4330d1a847
         pass
 
     def isEmpty(self):

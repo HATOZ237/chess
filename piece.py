@@ -15,7 +15,7 @@ class Piece():
 
     def __init__(self, nom='', couleur=''):
 
-        """- 'nom' as name (ROI, DAME...);
+        """- 'nom' as name (ROI, DAME....);
         - 'couleur' as color (blanc,noir);
         - 'valeur' as its value
         """

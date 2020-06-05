@@ -70,7 +70,7 @@ class Piece():
         """
         return (self.nom == "")
 
-    def pos2_roi(self):
+    def pos2_roi(self,pos1):
         """[Me permet de generer les d"placements possibles pour le ROI]
         """
         if self.nom != 'ROI':
@@ -85,12 +85,21 @@ class Piece():
         - at square number 'pos1' (0 to 63)
         - opponent color is cAd (blanc,noir)
         """
-        if self.nom != 'ROI':
+        if not (self.nom in ['TOUR', "DAME"]):
             raise ChessError(
-                "désolé, cette pièce n'est pas un Roi mais un", self.nom)
+                "désolé, cette pièce n'est pas une TOUR mais un", self.nom)
         # je m'assure que la position entrée est valide
         if not pos1 in self.tab64:
             raise ChessError("Cette position n'existe pas")
+        #construction de la liste
+        deplacements_tour = (-10,10,-1,1) # depl. vertical et horizontal
+        liste_move = [[] for i in range(len(deplacements_tour))]
+        for i, x in enumerate(deplacements_tour):
+            pos = pos1
+            while self.tab120[pos+x] != -1:
+                liste_move[i].append(pos+x)
+                pos = pos+x
+        return liste_move
 
     def pos2_cavalier(self, pos1):
         """Returns the list of moves for a KNIGHT :
@@ -123,6 +132,16 @@ class Piece():
         # je m'assure que la position entrée est valide
         if not pos1 in self.tab64:
             raise ChessError("Cette position n'existe pas")
+        #construction de l'ensemble des mouvements
+        deplacements_fou = (-11,-9,11,9)
+        liste_move = [[] for i in range(len(deplacements_fou))]
+        for i, x in enumerate(deplacements_fou):
+            pos = pos1
+            while self.tab120[pos+x] != -1:
+                liste_move[i].append(pos+x)
+                pos = pos+x
+        return liste_move
+        
 
     def pos2_pion(self, pos1):
         """Returns the list of moves for a PAWN :
@@ -135,3 +154,4 @@ class Piece():
         # je m'assure que la position entrée est valide
         if not pos1 in self.tab64:
             raise ChessError("Cette position n'existe pas")
+        

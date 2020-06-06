@@ -196,6 +196,7 @@ def move_cavalier_enable(liste_move:list, cases:list, table:tuple, color:str):
 
     Args:
         liste_move (list): liste des positions générées par la methode pos2_cavalier
+        
         cases (list): liste representant la disposition des pieces sur l'echiquier
         table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
         color (str): couleur du cavalier
@@ -205,4 +206,32 @@ def move_cavalier_enable(liste_move:list, cases:list, table:tuple, color:str):
         if cases[table.index(x)].isEmpty() or cases[table.index(x)].couleur != color:
             liste.append(x)
     return liste
+
+def move_fou_enabled(liste_move:list, cases:list, table:tuple, color:str):
+    """Cette fonction trie parmi les futures positions possibles 
+    d'un fou ou d'une tour, celles qui peuvent être jouées
+
+    Args:
+    
+        liste_move (list): liste des positions générées par la methode pos2_fou ou pos2_tour
+        
+        cases (list): liste representant la disposition des pieces sur l'echiquier
+        
+        table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
+        
+        color (str): couleur du cavalier
+    """
+    liste = [[] for i in range(4)]
+    for i, mini_liste in enumerate(liste_move):
+        for pos in mini_liste:
+            if cases[table.index(pos)].isEmpty():
+                liste[i].append(pos)
+            else:
+                if cases[table.index(pos)].couleur != color:
+                    liste[i].append(pos)
+                    break
+                else:
+                    break
+    return liste
+
             

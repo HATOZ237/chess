@@ -31,6 +31,7 @@ class Echequier():
             Piece('PION', 'blanc'), Piece('PION', 'blanc'),
             Piece('TOUR', 'blanc'), Piece(
                 'CAVALIER', 'blanc'), Piece('FOU', 'blanc'),
+                
             Piece('DAME', 'blanc'), Piece(
                 'ROI', 'blanc'), Piece('FOU', 'blanc'),
             Piece('CAVALIER', 'blanc'), Piece('TOUR', 'blanc')
@@ -79,10 +80,10 @@ class Echequier():
             81, 82, 83, 84, 85, 86, 87, 88,
             91, 92, 93, 94, 95, 96, 97, 98
         )
-        """self.FEn = {'ROI blanc': k, 'ROI noir': K, 'DAME blanc':q, 'DAME noir':Q, 'TOUR blanc':r,
+        self.FEn = {'ROI blanc': k, 'ROI noir': K, 'DAME blanc':q, 'DAME noir':Q, 'TOUR blanc':r,
         'TOUR noir':R, 'FOU blanc':b, 'FOU noir':B, 'CAVALIER blanc':n, 'CAVALIER noir':N, 'PION blanc':p, 'PION noir':P}
-        for num in coord.keys():
-            self.echequier[num] = self.cases[num] """
+        for num in self.coord.keys():
+            self.echequier[num] = self.cases[num] 
 
     def gen_moves_list(self, color='', dontCallIsAttacked=False):
         """Returns all possible moves for the requested color.If color is not given, it is considered as the side to move.
@@ -121,17 +122,19 @@ class Echequier():
         """Returns the FEN notation of the current board. i.e. :
     rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - - 0
     """
-        """FEN = ''
+        FEN = ''
         for num, vale in self.echequier: 
             for cle, valeur in self.FEn.items():
                 if vale.nom + ' ' + vale.couleur == cle:
                     self.FEN+= valeur
                 else:
                     if self.FEN[len(self.FEN)-1]  in [1,2,3,4,5,6,7]:
-                        self.FEN = FEN[0: len(self.FEN)-1] + str(int (FEN[len(self.FEN)-1)]) + 1)"""
-        
-            
-                 
+                        self.FEN = FEN[0: len(self.FEN)] + str(int (FEN[len(self.FEN)-1)]) + 1)
+                    else:
+                        self.FEN+= '1'  
+            if (num+1)//8 == (num+1)/8 and num < 63:
+                FEN += '/'
+                             
                 
     def domove(self,depart,arrivee,promote):
         """Move a piece on the board from the square numbers
@@ -205,6 +208,8 @@ def move_cavalier_enable(liste_move:list, cases:list, table:tuple, color:str):
     for x in liste_move:
         if cases[table.index(x)].isEmpty() or cases[table.index(x)].couleur != color:
             liste.append(x)
+        if x
+        
     return liste
 
 def move_fou_enabled(liste_move:list, cases:list, table:tuple, color:str):

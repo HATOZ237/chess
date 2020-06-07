@@ -5,7 +5,7 @@ class Application(tk.Frame):
         super().__init__(master)
         self.master = master
         self.pack()
-        self.create_widgets()
+        self.create_widgets() #push
 
     def create_widgets(self):
         self.hi_there = tk.Button(self)

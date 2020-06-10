@@ -107,7 +107,7 @@ class Piece():
         - opponent color is cAd (blanc,noir)
         """
         # je m'assure que seul le Cabvalier peut utiliser cette méthode
-        if self.nom != 'CAVALIER':
+        if not self.nom in ["CAVALIER", "DAME"]:
             raise ChessError(
                 "désolé, cette pièce n'est pas un CAVALIER mais un", self.nom)
         # je m'assure que la position entrée est valide
@@ -160,7 +160,7 @@ class Piece():
         - at square number 'pos1' (0 to 63)
         - opponent color is cAd (blanc,noir)
         """
-        return self.pos2_cavalier(pos1)+self.pos2_fou(pos1)
+        return self.pos2_tour(pos1)+self.pos2_fou(pos1)
         
     
     def position(self, pos):

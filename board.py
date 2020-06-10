@@ -120,8 +120,8 @@ class Echequier():
 
     def getboard(self):
         """Returns the FEN notation of the current board. i.e. :
-    rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - - 0
-    """
+        rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - - 0
+        """
         FEN = ''
         for num, vale in self.echequier: 
             for cle, valeur in self.FEn.items():
@@ -129,7 +129,7 @@ class Echequier():
                     self.FEN+= valeur
                 else:
                     if self.FEN[len(self.FEN)-1]  in [1,2,3,4,5,6,7]:
-                        self.FEN = FEN[0: len(self.FEN)] + str(int (FEN[len(self.FEN)-1)]) + 1)
+                        self.FEN = FEN[0: len(self.FEN)] + str(int (FEN[len(self.FEN)-1]) + 1)
                     else:
                         self.FEN+= '1'  
             if (num+1)//8 == (num+1)/8 and num < 63:
@@ -208,8 +208,6 @@ def move_cavalier_enable(liste_move:list, cases:list, table:tuple, color:str):
     for x in liste_move:
         if cases[table.index(x)].isEmpty() or cases[table.index(x)].couleur != color:
             liste.append(x)
-        if x
-        
     return liste
 
 def move_fou_enabled(liste_move:list, cases:list, table:tuple, color:str):

@@ -155,3 +155,17 @@ class Piece():
         if not pos1 in self.tab64:
             raise ChessError("Cette position n'existe pas")
         
+    def pos2_dame(self,pos1):
+        """Returns the list of moves for a PAWN :
+        - at square number 'pos1' (0 to 63)
+        - opponent color is cAd (blanc,noir)
+        """
+        return self.pos2_cavalier(pos1)+self.pos2_fou(pos1)
+        
+    
+    def position(self, pos):
+        dico = {'TOUR': self.pos2_tour, 'PION':self.pos2_pion, "DAME": self.pos2_dame, "ROI":self.pos2_roi,
+                "FOU": self.pos2_fou, "CAVALIER": self.pos2_cavalier}
+        return dico[self.nom](pos)
+        
+        

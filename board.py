@@ -137,8 +137,8 @@ class Echequier():
 
     def getboard(self):
         """Returns the FEN notation of the current board. i.e. :
-    rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - - 0
-    """
+        rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - - 0
+        """
         FEN = ''
         for num, vale in self.echequier: 
             for cle, valeur in self.FEn.items():
@@ -146,7 +146,7 @@ class Echequier():
                     self.FEN+= valeur
                 else:
                     if self.FEN[len(self.FEN)-1]  in [1,2,3,4,5,6,7]:
-                        self.FEN = FEN[0: len(self.FEN)] + str(int (FEN[len(self.FEN)-1)]) + 1)
+                        self.FEN = FEN[0: len(self.FEN)] + str(int (FEN[len(self.FEN)-1]) + 1)
                     else:
                         self.FEN+= '1'  
             if (num+1)//8 == (num+1)/8 and num < 63:
@@ -241,6 +241,7 @@ class Echequier():
         pass
 
 
+<<<<<<< HEAD
     def move_cavalier_enable(liste_move:list, cases:dict, table:tuple, color:str):
         """Cette fonction trie parmi les futures positions possibles 
         d'un Cavalier, celles qui peuvent être jouées
@@ -301,6 +302,20 @@ class Echequier():
 
 
 
+=======
+    Args:
+        liste_move (list): liste des positions générées par la methode pos2_cavalier
+        
+        cases (list): liste representant la disposition des pieces sur l'echiquier
+        table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
+        color (str): couleur du cavalier
+    """
+    liste = []
+    for x in liste_move:
+        if cases[table.index(x)].isEmpty() or cases[table.index(x)].couleur != color:
+            liste.append(x)
+    return liste
+>>>>>>> d2e94ed11267c19bb30ead0b8db68ad930ad9618
 
 
 

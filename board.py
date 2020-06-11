@@ -2,6 +2,7 @@ from piece import *
 from random import choice
  # defini l etat dune ligne de l echequier pour la fonction set board
 
+couleurs = ["noir", "blanc"]
 
 class Echequier():
 
@@ -91,36 +92,33 @@ class Echequier():
         - the name of the piece to promote '','q','r','b','n'
         (queen, rook, bishop, knight)"""
         all_list_move = []
-        opp_col = ""
+        
         
         couleurs = ["noir", "blanc"]
         if color == '':
-            color = couleurs[self.trait]
+            raise ChessError('vous devez entrer une couleur')
         elif not color in couleurs:
             raise ChessError('Soit du noir, soit du blanc!!!')
-           
-        for c in couleurs:
-            if b != self.color
-            opp_col = c
-        listPiece = []
         for a, b in self.echequier.items:
-            if b.couleur == opp_col:
+            if b.couleur == self.color:
                 if b.nom == 'ROI':
                     listPiece = b.position(a)
-                    all_list_move.append(move_roi_enable(listPiece, self.echequier, table64, opp_col))
+                    all_list_move.append(move_roi_enable(listPiece, self.echequier, table64, self.color ))
                 if b.nom == 'PION':
                     listPiece = b.position(a)
-                    all_list_move.append(move_pion_enable(listPiece, self.echequier, table64, opp_col))
+                    all_list_move.append(move_pion_enable(listPiece, self.echequier, table64, self.color))
                 if b.nom == 'TOUR':
                     listPiece = b.position(a)
-                    all_list_move.append(move_tour_enable(listPiece, self.echequier, table64, opp_col))
+                    all_list_move.append(move_tour_enable(listPiece, self.echequier, table64, self.color))
                 if b.nom == 'FOU':
                     listPiece = b.position(a)
-                    all_list_move.append(move_fou_enable(listPiece, self.echequier, table64, opp_col))
+                    all_list_move.append(move_fou_enable(listPiece, self.echequier, table64, self.color))
                 if b.nom == 'CAVALIER':
                     listPiece = b.position(a)
-                    all_list_move.append(move_cavalier_enable(listPiece, self.echequier, table64, opp_col))
-                    #tous les pos2 la ne sont pas des listes j attend la fonction qui va prendre en parametre une piece et renvoyer la liste pos2_..
+                    all_list_move.append(move_cavalier_enable(listPiece, self.echequier, table64, self.color))
+                if b.nom == 'DAME':
+                    listPiece = b.position(a)
+                    all_list_move.append(move_dame_enable(listPiece, self.echequier, table64, self.color))
         return all_list_move
                  
 
@@ -174,23 +172,23 @@ class Echequier():
     
     def oppColor(self,c):
         "Returns the opposite color of the 'c' color given"
-        couleurs = ["noir", "blanc"]
+        
         op_color = ''
         for a, b in enumerate(couleurs):
-            if b != c:
+            if b != self.c:
                 op_color = b
         return op_color
         
     
-    def in_check(self,coleur):
+    def in_check(self,couleur):
         """Returns TRUE or FALSE
         if the KING of the given 'color' is in check"""
         pos_roi = 0
         for a, b in self.echequier.items():
-            if b.couleur == coleur & b.nom == 'roi':
+            if b.couleur == self.couleur & b.nom == 'roi':
                 pos_roi = a
         return is_attacked(pos_roi, oppColor(coleur))               
-        pass
+        
     
     def is_attacked(self,pos,Couleur):
         """Returns TRUE or FALSE if the square number 'pos' is a
@@ -202,8 +200,8 @@ class Echequier():
             if b.coleur == Couleur:
                 pion_couleur.append(a)
         if pos in pion_couleur:
-            BoardError("le pion ne peut pas etre attaque par un de mm couleur")
-        for a, b enumerate(gen_moves_list(couleur)):
+            ChessError("le pion ne peut pas etre attaque par un de mm couleur")
+        for a, b in enumerate(gen_moves_list(couleur)):
             if b == pos:
                 bol = True
         return bol    
@@ -213,22 +211,22 @@ class Echequier():
     def caseStr2Int(self,c):
         """'c' given in argument is a square name like 'e2'
         "This functino returns a square number like 52"""
-        if not c in self.coord
-            raise BoardError("la case", c, " n appartient pas a l echequier")
+        if not self.c in self.coord:
+            raise ChessError("la case", c, " n appartient pas a l echequier")
         s_number = 0
         for num, val in enumerate(self.coord):
-            if val == c:
+            if val == self.c:
                 s_number = num
         return s_number
     
     def caseInt2Str(self,i):
         """Given in argument : an integer between 0 and 63
         Returns a string like 'e2'"""
-        if not i in list(range(0,63)):
-            raise BoardError("la case", i, " n appartient pas a l echequier")
+        if not self.i in list(range(0,63)):
+            raise ChessError("la case", i, " n appartient pas a l echequier")
         s_string = ''
         for num, val in enumerate(self.coord):
-            if num == i:
+            if num == self.i:
                 s_string = val
         return s_string    
     def showHistory(self):
@@ -241,82 +239,65 @@ class Echequier():
         pass
 
 
-<<<<<<< HEAD
-    def move_cavalier_enable(liste_move:list, cases:dict, table:tuple, color:str):
-        """Cette fonction trie parmi les futures positions possibles 
-        d'un Cavalier, celles qui peuvent être jouées
-            Args:
-                    liste_move (list): liste des positions générées par la methode pos2_cavalier
+def move_cavalier_enable(liste_move:list, cases:dict, table:tuple, color:str):
+    """Cette fonction trie parmi les futures positions possibles 
+    d'un Cavalier, celles qui peuvent être jouées
+        Args:
+            liste_move (list): liste des positions générées par la methode pos2_cavalier
                     
-                    cases (list): liste representant la disposition des pieces sur l'echiquier
-                    table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
-                    color (str): couleur du cavalier
-                """
-        liste = []
-            for x in liste_move:
-                if cases[table.index(x)].isEmpty() or cases[table.index(x)].couleur != color:
-                    liste.append(x)
-                    if x
-                    
-        return liste
-
-    def move_fou_enabled(liste_move:list, cases:dict, table:tuple, color:str):
-         """Cette fonction trie parmi les futures positions possibles 
-            d'un fou ou d'une tour, celles qui peuvent être jouées
-
-            Args:
-                
-                    liste_move (list): liste des positions générées par la methode pos2_fou ou pos2_tour
-                    
-                    cases (list): liste representant la disposition des pieces sur l'echiquier
-                    
-                    table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
-                    
-                    color (str): couleur du cavalier
-                """
-        liste = [[] for i in range(4)]
-            for i, mini_liste in enumerate(liste_move):
-                for pos in mini_liste:
-                    if cases[table.index(pos)].isEmpty():
-                        liste[i].append(pos)
-                    else:
-                        if cases[table.index(pos)].couleur != color:
-                            liste[i].append(pos)
-                                break
-                        else:
-                            break
-        return liste
-    def move_pion_enable(liste_move:list, cases:dict, table:tuple, color:str):
-        liste = []
-            for a in liste_move:
-                #code... qui retourne la liste
-                return liste
-    def move_tour_enable(liste_move:list, cases:dict, table:tuple, color:str):
-        liste = []
-                #code...
-        return liste
-    def move_roi_enable(liste_move:list, cases:dict, table:tuple, color:str):
-        liste = []
-                #code...
-        return liste            
-
-
-
-=======
-    Args:
-        liste_move (list): liste des positions générées par la methode pos2_cavalier
-        
-        cases (list): liste representant la disposition des pieces sur l'echiquier
-        table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
-        color (str): couleur du cavalier
-    """
+                cases (list): liste representant la disposition des pieces sur l'echiquier
+                table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
+                color (str): couleur du cavalier
+            """
     liste = []
     for x in liste_move:
         if cases[table.index(x)].isEmpty() or cases[table.index(x)].couleur != color:
             liste.append(x)
+                    
+                    
+        return liste
+
+def move_fou_enabled(liste_move:list, cases:dict, table:tuple, color:str):
+    """Cette fonction trie parmi les futures positions possibles 
+        d'un fou ou d'une tour, celles qui peuvent être jouées
+
+        Args:
+                
+            liste_move (list): liste des positions générées par la methode pos2_fou ou pos2_tour
+                    
+            cases (list): liste representant la disposition des pieces sur l'echiquier
+                    
+            table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
+                    
+            color (str): couleur du cavalier
+                """
+    liste = [[] for i in range(4)]
+    for i, mini_liste in enumerate(liste_move):
+        for pos in mini_liste:
+            if cases[table.index(pos)].isEmpty():
+                liste[i].append(pos)
+            else:
+                if cases[table.index(pos)].couleur != color:
+                    liste[i].append(pos)
+                    break
+                else:
+                    break
     return liste
->>>>>>> d2e94ed11267c19bb30ead0b8db68ad930ad9618
-
-
+def move_pion_enable(liste_move:list, cases:dict, table:tuple, color:str):
+    liste = []
+    #code
+    return liste
+                
+def move_tour_enable(liste_move:list, cases:dict, table:tuple, color:str):
+    liste = []
+        #code...
+    return liste
+def move_roi_enable(liste_move:list, cases:dict, table:tuple, color:str):
+    liste = []
+        #code...
+    return liste            
+def move_dame_enable(liste_move:list, cases:dict, table:tuple, color:str):
+     
+     pass
 
             

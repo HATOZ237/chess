@@ -1,3 +1,4 @@
+
 class ChessError(Exception):
     """
     Cette classe retourne des erreurs
@@ -154,4 +155,5 @@ class Piece():
         # je m'assure que la position entrée est valide
         if not pos1 in self.tab64:
             raise ChessError("Cette position n'existe pas")
+
         

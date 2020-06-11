@@ -37,22 +37,14 @@ class Echequier():
             Piece('CAVALIER', 'blanc'), Piece('TOUR', 'blanc')
         ]
         self.coord = [
-        ['a', 8], ['b', 8], ['c', 8], ['d', 8], [
-            'e', 8], ['f', 8], ['g', 8], ['h', 8],
-        ['a', 7], ['b', 7], ['c', 7], ['d', 7], [
-            'e', 7], ['f', 7], ['g', 7], ['h', 7],
-        ['a', 6], ['b', 6], ['c', 6], ['d', 6], [
-            'e', 6], ['f', 6], ['g', 6], ['h', 6],
-        ['a', 5], ['b', 5], ['c', 5], ['d', 5], [
-            'e', 5], ['f', 5], ['g', 5], ['h', 5],
-        ['a', 4], ['b', 4], ['c', 4], ['d', 4], [
-            'e', 4], ['f', 4], ['g', 4], ['h', 4],
-        ['a', 3], ['b', 3], ['c', 3], ['d', 3], [
-            'e', 3], ['f', 3], ['g', 3], ['h', 3],
-        ['a', 2], ['b', 2], ['c', 2], ['d', 2], [
-            'e', 2], ['f', 2], ['g', 2], ['h', 2],
-        ['a', 1], ['b', 1], ['c', 1], ['d', 1], [
-            'e', 1], ['f', 1], ['g', 1], ['h', 1]
+        'a8','b8','c8','d8','e8','f8','g8','h8',
+        'a7','b7','c7','d7','e7','f7','g7','h7',
+        'a6','b6','c6','d6','e6','f6','g6','h6',
+        'a5','b5','c5','d5','e5','f5','g5','h5',
+        'a4','b4','c4','d4','e4','f4','g4','h4',
+        'a3','b3','c3','d3','e3','f3','g3','h3',
+        'a2','b2','c2','d2','e2','f2','g2','h2',
+        'a1','b1','c1','d1','e1','f1','g1','h1'
         ]
         self.echequier = {}  # position des pieces sur l echequier
         self.tab120 = (
@@ -82,8 +74,11 @@ class Echequier():
         )
         self.FEn = {'ROI blanc': k, 'ROI noir': K, 'DAME blanc':q, 'DAME noir':Q, 'TOUR blanc':r,
         'TOUR noir':R, 'FOU blanc':b, 'FOU noir':B, 'CAVALIER blanc':n, 'CAVALIER noir':N, 'PION blanc':p, 'PION noir':P}
-        for num in self.coord.keys():
-            self.echequier[num] = self.cases[num] 
+        for num, val in enumerate(self.coord):
+            for Num, Val in enumerate(self.tab64):
+                if Num == num:
+                    self.echequier[Val] = self.cases[num]
+        
 
     def gen_moves_list(self, color='', dontCallIsAttacked=False):
         """Returns all possible moves for the requested color.If color is not given, it is considered as the side to move.
@@ -95,17 +90,39 @@ class Echequier():
         - the number of the destination square (pos2)
         - the name of the piece to promote '','q','r','b','n'
         (queen, rook, bishop, knight)"""
+        all_list_move = []
+        opp_col = ''
         
-        couleur = ["noir", "blanc"]
+        couleurs = ["noir", "blanc"]
         if color == '':
-            color = couleur[self.trait]
-        elif not color in couleur:
+            color = couleurs[self.trait]
+        elif not color in couleurs:
             raise ChessError('Soit du noir, soit du blanc!!!')
-            
-        
-        
-            
-        
+           
+        for c in couleurs:
+            if b != self.color
+            opp_col = c
+        listPiece = []
+        for a, b in self.echequier.items:
+            if b.couleur == opp_col:
+                if b.nom == 'ROI':
+                    listPiece = b.position(a)
+                    all_list_move.append(move_roi_enable(listPiece, self.echequier, table64, opp_col))
+                if b.nom == 'PION':
+                    listPiece = b.position(a)
+                    all_list_move.append(move_pion_enable(listPiece, self.echequier, table64, opp_col))
+                if b.nom == 'TOUR':
+                    listPiece = b.position(a)
+                    all_list_move.append(move_tour_enable(listPiece, self.echequier, table64, opp_col))
+                if b.nom == 'FOU':
+                    listPiece = b.position(a)
+                    all_list_move.append(move_fou_enable(listPiece, self.echequier, table64, opp_col))
+                if b.nom == 'CAVALIER':
+                    listPiece = b.position(a)
+                    all_list_move.append(move_cavalier_enable(listPiece, self.echequier, table64, opp_col))
+                    #tous les pos2 la ne sont pas des listes j attend la fonction qui va prendre en parametre une piece et renvoyer la liste pos2_..
+        return all_list_move
+                 
 
     def setboard(self,fen):
         """Set the board to the FEN position given. i.e. :
@@ -157,33 +174,63 @@ class Echequier():
     
     def oppColor(self,c):
         "Returns the opposite color of the 'c' color given"
-        pass
+        couleurs = ["noir", "blanc"]
+        op_color = ''
+        for a, b in enumerate(couleurs):
+            if b != c:
+                op_color = b
+        return op_color
+        
     
-    def in_check(self,couleur):
+    def in_check(self,coleur):
         """Returns TRUE or FALSE
         if the KING of the given 'color' is in check"""
+        pos_roi = 0
+        for a, b in self.echequier.items():
+            if b.couleur == coleur & b.nom == 'roi':
+                pos_roi = a
+        return is_attacked(pos_roi, oppColor(coleur))               
         pass
     
-    def is_attacked(self,pos,couleur):
+    def is_attacked(self,pos,Couleur):
         """Returns TRUE or FALSE if the square number 'pos' is a
         destination square for the color 'couleur'.
         If so we can say that 'pos' is attacked by this side.
         This function is used for 'in check' and for castle moves."""
-        pass
-    
+        pion_couleur = []
+        for a,b in self.echequier.items():
+            if b.coleur == Couleur:
+                pion_couleur.append(a)
+        if pos in pion_couleur:
+            BoardError("le pion ne peut pas etre attaque par un de mm couleur")
+        for a, b enumerate(gen_moves_list(couleur)):
+            if b == pos:
+                bol = True
+        return bol    
     def render(self):
         """Display the chessboard in console mode"""
         pass
     def caseStr2Int(self,c):
         """'c' given in argument is a square name like 'e2'
         "This functino returns a square number like 52"""
-        pass
+        if not c in self.coord
+            raise BoardError("la case", c, " n appartient pas a l echequier")
+        s_number = 0
+        for num, val in enumerate(self.coord):
+            if val == c:
+                s_number = num
+        return s_number
     
     def caseInt2Str(self,i):
         """Given in argument : an integer between 0 and 63
         Returns a string like 'e2'"""
-        pass
-    
+        if not i in list(range(0,63)):
+            raise BoardError("la case", i, " n appartient pas a l echequier")
+        s_string = ''
+        for num, val in enumerate(self.coord):
+            if num == i:
+                s_string = val
+        return s_string    
     def showHistory(self):
         """Displays the history of the moves played"""
         pass
@@ -193,50 +240,68 @@ class Echequier():
         returning actually only the material score"""
         pass
 
-def move_cavalier_enable(liste_move:list, cases:list, table:tuple, color:str):
-    """Cette fonction trie parmi les futures positions possibles 
-    d'un Cavalier, celles qui peuvent être jouées
 
-    Args:
-        liste_move (list): liste des positions générées par la methode pos2_cavalier
-        
-        cases (list): liste representant la disposition des pieces sur l'echiquier
-        table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
-        color (str): couleur du cavalier
-    """
-    liste = []
-    for x in liste_move:
-        if cases[table.index(x)].isEmpty() or cases[table.index(x)].couleur != color:
-            liste.append(x)
-        if x
-        
-    return liste
+    def move_cavalier_enable(liste_move:list, cases:dict, table:tuple, color:str):
+        """Cette fonction trie parmi les futures positions possibles 
+        d'un Cavalier, celles qui peuvent être jouées
+            Args:
+                    liste_move (list): liste des positions générées par la methode pos2_cavalier
+                    
+                    cases (list): liste representant la disposition des pieces sur l'echiquier
+                    table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
+                    color (str): couleur du cavalier
+                """
+        liste = []
+            for x in liste_move:
+                if cases[table.index(x)].isEmpty() or cases[table.index(x)].couleur != color:
+                    liste.append(x)
+                    if x
+                    
+        return liste
 
-def move_fou_enabled(liste_move:list, cases:list, table:tuple, color:str):
-    """Cette fonction trie parmi les futures positions possibles 
-    d'un fou ou d'une tour, celles qui peuvent être jouées
+    def move_fou_enabled(liste_move:list, cases:dict, table:tuple, color:str):
+         """Cette fonction trie parmi les futures positions possibles 
+            d'un fou ou d'une tour, celles qui peuvent être jouées
 
-    Args:
-    
-        liste_move (list): liste des positions générées par la methode pos2_fou ou pos2_tour
-        
-        cases (list): liste representant la disposition des pieces sur l'echiquier
-        
-        table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
-        
-        color (str): couleur du cavalier
-    """
-    liste = [[] for i in range(4)]
-    for i, mini_liste in enumerate(liste_move):
-        for pos in mini_liste:
-            if cases[table.index(pos)].isEmpty():
-                liste[i].append(pos)
-            else:
-                if cases[table.index(pos)].couleur != color:
-                    liste[i].append(pos)
-                    break
-                else:
-                    break
-    return liste
+            Args:
+                
+                    liste_move (list): liste des positions générées par la methode pos2_fou ou pos2_tour
+                    
+                    cases (list): liste representant la disposition des pieces sur l'echiquier
+                    
+                    table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
+                    
+                    color (str): couleur du cavalier
+                """
+        liste = [[] for i in range(4)]
+            for i, mini_liste in enumerate(liste_move):
+                for pos in mini_liste:
+                    if cases[table.index(pos)].isEmpty():
+                        liste[i].append(pos)
+                    else:
+                        if cases[table.index(pos)].couleur != color:
+                            liste[i].append(pos)
+                                break
+                        else:
+                            break
+        return liste
+    def move_pion_enable(liste_move:list, cases:dict, table:tuple, color:str):
+        liste = []
+            for a in liste_move:
+                #code... qui retourne la liste
+                return liste
+    def move_tour_enable(liste_move:list, cases:dict, table:tuple, color:str):
+        liste = []
+                #code...
+        return liste
+    def move_roi_enable(liste_move:list, cases:dict, table:tuple, color:str):
+        liste = []
+                #code...
+        return liste            
+
+
+
+
+
 
             

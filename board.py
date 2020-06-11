@@ -91,7 +91,7 @@ class Echequier():
         - the name of the piece to promote '','q','r','b','n'
         (queen, rook, bishop, knight)"""
         all_list_move = []
-        opp_col = ''
+        opp_col = ""
         
         couleurs = ["noir", "blanc"]
         if color == '':

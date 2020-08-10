@@ -80,6 +80,13 @@ class Piece():
         # je m'assure que la position entrée est valide
         if not pos1 in self.tab64:
             raise ChessError("Cette position n'existe pas")
+        move_liste = []
+        #deplacement banal sur une case autour de roi
+        for i in [-10,10,-1,1,-11,-9,11,9]:
+            move_liste.append(pos1+i)
+            
+
+        
 
     def pos2_tour(self, pos1):
         """Returns the list of moves for a ROOK :

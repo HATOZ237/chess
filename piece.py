@@ -84,7 +84,7 @@ class Piece():
         move_liste = []
         #deplacement banal sur une case autour de roi
         for i in [-10,10,-1,1,-11,-9,11,9]:
-            move_liste.append(pos1+i)
+            move_liste.append(pos1+i) 
             
 
         

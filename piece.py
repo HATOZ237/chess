@@ -21,7 +21,7 @@ class Piece():
         nomPiece = [VIDE, 'ROI', 'DAME', 'TOUR', 'CAVALIER', 'FOU', 'PION']
         valeurPiece = [0, 0, 9, 5, 3, 3, 1]
 
-        # verification et erreurs de  création
+        # verifications et erreurs de  création
 
         if not couleur in ["blanc", "noir", ""]:
             # si la couleur n'est ni du blanc ni du noir ni vide
@@ -163,6 +163,12 @@ class Piece():
         # je m'assure que la position entrée est valide
         if not pos1 in self.tab64:
             raise ChessError("Cette position n'existe pas")
+        tab = {"noir": -8, "blanc": 8}
+        tab_spec = {"noir": -16, "blanc": 16}
+        liste_move = [tab[self.couleur]]
+        if not self.already_moved:
+            liste_move.append(tab_spec[self.couleur])
+        return liste_move
 
         
     def pos2_dame(self,pos1):

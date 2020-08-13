@@ -62,7 +62,7 @@ class Echequier():
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
         )
-        self.trait = choice([0, 1])#0 pour noir et 1 pour blanc
+        self.trait = choice([1, 2])#0 pour noir et 1 pour blanc
         self.tab64 = (
             21, 22, 23, 24, 25, 26, 27, 28,
             31, 32, 33, 34, 35, 36, 37, 38,
@@ -168,16 +168,20 @@ class Echequier():
 
     def changeTrait(self):
         "Change the side to move"
-        pass
+        if self.trait == 1:
+            self.trait = 2
+        if self.trait == 2:
+            self.trait == 1
     
     def oppColor(self,c):
         "Returns the opposite color of the 'c' color given"
         
-        op_color = ''
-        for a, b in enumerate(couleurs):
-            if b != self.c:
-                op_color = b
-        return op_color
+        if not c in ["blanc", "noir"]:
+            return ChessError("Cette couleur n'existe pas")
+        if c == "blanc":
+            return "noir"
+        if c == "noir":
+            return "blanc"
         
     
     def in_check(self,couleur):
@@ -185,23 +189,23 @@ class Echequier():
         if the KING of the given 'color' is in check"""
         pos_roi = 0
         for a, b in self.echequier.items():
-            if b.couleur == self.couleur & b.nom == 'roi':
+            if b.couleur == couleur & b.nom == 'roi':
                 pos_roi = a
-        return is_attacked(pos_roi, oppColor(coleur))               
+        return self.is_attacked(pos_roi, self.oppColor(couleur))               
         
     
-    def is_attacked(self,pos,Couleur):
+    def is_attacked(self,pos,couleur):
         """Returns TRUE or FALSE if the square number 'pos' is a
         destination square for the color 'couleur'.
         If so we can say that 'pos' is attacked by this side.
         This function is used for 'in check' and for castle moves."""
         pion_couleur = []
         for a,b in self.echequier.items():
-            if b.coleur == Couleur:
+            if b.coleur == couleur:
                 pion_couleur.append(a)
         if pos in pion_couleur:
             ChessError("le pion ne peut pas etre attaque par un de mm couleur")
-        for a, b in enumerate(gen_moves_list(couleur)):
+        for a, b in enumerate(self.gen_moves_list(couleur)):
             if b == pos:
                 bol = True
         return bol    
@@ -211,22 +215,22 @@ class Echequier():
     def caseStr2Int(self,c):
         """'c' given in argument is a square name like 'e2'
         "This functino returns a square number like 52"""
-        if not self.c in self.coord:
+        if not c in self.coord:
             raise ChessError("la case", c, " n appartient pas a l echequier")
         s_number = 0
         for num, val in enumerate(self.coord):
-            if val == self.c:
+            if val == c:
                 s_number = num
         return s_number
     
     def caseInt2Str(self,i):
         """Given in argument : an integer between 0 and 63
         Returns a string like 'e2'"""
-        if not self.i in list(range(0,63)):
+        if not i in list(range(0,63)):
             raise ChessError("la case", i, " n appartient pas a l echequier")
         s_string = ''
         for num, val in enumerate(self.coord):
-            if num == self.i:
+            if num == i:
                 s_string = val
         return s_string    
     def showHistory(self):

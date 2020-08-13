@@ -38,6 +38,7 @@ class Piece():
         self.nom = nom
         self.couleur = couleur
         self.valeur = valeurPiece[nomPiece.index(self.nom)]
+        self.already_moved = False
         # creation des tableaux de verification
         self.tab120 = (
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,

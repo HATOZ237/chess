@@ -161,7 +161,7 @@ class Echequier():
     - TRUE if the move do not let king in check
     - FALSE otherwise and undomove is done.
     """
-    pass
+        pass
 
 
     def undomove(self):

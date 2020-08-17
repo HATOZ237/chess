@@ -73,8 +73,8 @@ class Echequier():
             81, 82, 83, 84, 85, 86, 87, 88,
             91, 92, 93, 94, 95, 96, 97, 98
         )
-        self.FEn = {'ROI blanc': k, 'ROI noir': K, 'DAME blanc':q, 'DAME noir':Q, 'TOUR blanc':r,
-        'TOUR noir':R, 'FOU blanc':b, 'FOU noir':B, 'CAVALIER blanc':n, 'CAVALIER noir':N, 'PION blanc':p, 'PION noir':P}
+        #self.FEn = {'ROI blanc': k, 'ROI noir': K, 'DAME blanc':q, 'DAME noir':Q, 'TOUR blanc':r,
+        #'TOUR noir':R, 'FOU blanc':b, 'FOU noir':B, 'CAVALIER blanc':n, 'CAVALIER noir':N, 'PION blanc':p, 'PION noir':P}
         for num, val in enumerate(self.coord):
             for Num, Val in enumerate(self.tab64):
                 if Num == num:
@@ -99,26 +99,26 @@ class Echequier():
             raise ChessError('vous devez entrer une couleur')
         elif not color in couleurs:
             raise ChessError('Soit du noir, soit du blanc!!!')
-        for a, b in self.echequier.items:
-            if b.couleur == self.color:
+        for a, b in self.echequier:
+            if b.couleur == color:
                 if b.nom == 'ROI':
                     listPiece = b.position(a)
-                    all_list_move.append(move_roi_enable(listPiece, self.echequier, table64, self.color ))
+                    all_list_move.append(move_roi_enable(listPiece, self.echequier, self.tab64, color ))
                 if b.nom == 'PION':
                     listPiece = b.position(a)
-                    all_list_move.append(move_pion_enable(listPiece, self.echequier, table64, self.color))
+                    all_list_move.append(move_pion_enable(listPiece, self.echequier, self.tab64, color))
                 if b.nom == 'TOUR':
                     listPiece = b.position(a)
-                    all_list_move.append(move_tour_enable(listPiece, self.echequier, table64, self.color))
+                    all_list_move.append(move_tour_enable(listPiece, self.echequier, self.tab64, color))
                 if b.nom == 'FOU':
                     listPiece = b.position(a)
-                    all_list_move.append(move_fou_enable(listPiece, self.echequier, table64, self.color))
+                    all_list_move.append(move_fou_enable(listPiece, self.echequier, self.tab64, color))
                 if b.nom == 'CAVALIER':
                     listPiece = b.position(a)
-                    all_list_move.append(move_cavalier_enable(listPiece, self.echequier, table64, self.color))
+                    all_list_move.append(move_cavalier_enable(listPiece, self.echequier, self.tab64, color))
                 if b.nom == 'DAME':
                     listPiece = b.position(a)
-                    all_list_move.append(move_dame_enable(listPiece, self.echequier, table64, self.color))
+                    all_list_move.append(move_dame_enable(listPiece, self.echequier, self.tab64, color))
         return all_list_move
                  
 
@@ -137,13 +137,13 @@ class Echequier():
         """Returns the FEN notation of the current board. i.e. :
         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - - 0
         """
-        FEN = ''
+        FEN = {}
         for num, vale in self.echequier: 
-            for cle, valeur in self.FEn.items():
+            for cle, valeur in FEN.items():
                 if vale.nom + ' ' + vale.couleur == cle:
-                    self.FEN+= valeur
+                    FEN+= valeur
                 else:
-                    if self.FEN[len(self.FEN)-1]  in [1,2,3,4,5,6,7]:
+                    if FEN[len(FEN)-1]  in [1,2,3,4,5,6,7]:
                         self.FEN = FEN[0: len(self.FEN)] + str(int (FEN[len(self.FEN)-1]) + 1)
                     else:
                         self.FEN+= '1'  
@@ -250,7 +250,7 @@ def move_cavalier_enable(liste_move:list, cases:dict, table:tuple, color:str):
             liste_move (list): liste des positions générées par la methode pos2_cavalier
                     
                 cases (list): liste representant la disposition des pieces sur l'echiquier
-                table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
+                table (tuple): Il s'agit de la self.tab64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
                 color (str): couleur du cavalier
             """
     liste = []
@@ -261,7 +261,7 @@ def move_cavalier_enable(liste_move:list, cases:dict, table:tuple, color:str):
                     
         return liste
 
-def move_fou_enabled(liste_move:list, cases:dict, table:tuple, color:str):
+def move_fou_enable(liste_move:list, cases:dict, table:tuple, color:str):
     """Cette fonction trie parmi les futures positions possibles 
         d'un fou ou d'une tour, celles qui peuvent être jouées
 
@@ -271,7 +271,7 @@ def move_fou_enabled(liste_move:list, cases:dict, table:tuple, color:str):
                     
             cases (list): liste representant la disposition des pieces sur l'echiquier
                     
-            table (tuple): Il s'agit de la table64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
+            table (tuple): Il s'agit de la self.tab64 qui fait la correspondance entre les pieces de l'echiquier et leurs positions
                     
             color (str): couleur du cavalier
                 """

@@ -161,6 +161,8 @@ class Echequier():
     - TRUE if the move do not let king in check
     - FALSE otherwise and undomove is done.
     """
+        pass
+
 
     def undomove(self):
         """Undo the last move in history"""
